@@ -68,4 +68,78 @@ class RestaurantServiceTest {
         assertEquals(initialNumberOfRestaurants + 1,service.getRestaurants().size());
     }
     //<<<<<<<<<<<<<<<<<<<<ADMIN: ADDING & REMOVING RESTAURANTS>>>>>>>>>>>>>>>>>>>>>>>>>>
+//<Part 3: Failing test case> TDD Test Cases for calculating item subtotal Sushant T. 09/01/2021
+    //<<<<<<<<<<<<<<<<<<<<SUBTOTAL>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+    // To write some test cases for following requirements.
+    // 1. SubTotal to be updated on Selection of Menu Items.
+    // 2. SubTotal to be restored on Un-selecting of Menu Items.
+    // 1. Initially the subTotal should be zero and every subsequent menu seclection
+
+    @Test
+    public void Cart_Initialization_with_zero_subTotal() throws restaurantNotFoundException {
+        //<Part 3: Failing test case> Sushant T. 09/01/2021 SubTotal Initializaiton to 0.
+        //Arrange
+        RestaurantService restaurantService = new RestaurantService();
+        Restaurant selectedRestaurantTest = new Restaurant();
+
+        //Act -
+        selectedRestaurantTest = restaurantService.findRestaurantByName("Amelie's cafe");
+
+        //Assert
+        assertEquals(0, restaurantService.getsubTotalForSelectedRestaurantItems());
+    }
+
+    @Test
+    public void when_user_selects_a_Singleitem_the_cart_total_should_increment_by_the_item_price_in_the_list() throws restaurantNotFoundException{
+        //Part 3: Failing test case> Sushant T. 09/01/2021
+        //Arrange
+
+        Item testItem = new Item("Sweet corn soup", 119);
+
+        RestaurantService restaurantService = new RestaurantService();
+        Restaurant selectedRestaurant = restaurantService.findRestaurantByName("Amelie's cafe");
+        restaurantService.setSubTotalForSelectedRestaurantItems(200);
+        //Act
+        restaurantService.getSelectedItemPriceTotal(testItem, "ADD");
+        //Assert - upon adding the item, the total should increase by 119
+        assertEquals(319, restaurantService.getsubTotalForSelectedRestaurantItems());
+    }
+
+    @Test
+    public void when_user_unchecks_an_item_the_cart_total_should_increment_by_the_item_price_in_the_list() throws restaurantNotFoundException{
+        //Part 3: Failing test case> Sushant T. 09/01/2021
+        //Arrange
+
+        Item testItem = new Item("Sweet corn soup", 119);
+
+        RestaurantService restaurantService = new RestaurantService();
+        Restaurant selectedRestaurant = restaurantService.findRestaurantByName("Amelie's cafe");
+        restaurantService.setSubTotalForSelectedRestaurantItems(200);
+
+        //Act
+        restaurantService.getSelectedItemPriceTotal(testItem, "REMOVE");
+        //Assert - upon unchecking the item (remove action), the cart total should reduce to 81
+        assertEquals(81, restaurantService.getsubTotalForSelectedRestaurantItems());
+    }
+
+    @Test
+    public void when_user_provides_all_selected_item_list_of_the_cart_it_should_calculate_total_amount() throws restaurantNotFoundException{
+        //Part 3: Failing test case> Sushant T. 09/01/2021
+        //Arrange
+
+        List<Item> selectedItemList = new ArrayList<>();
+        selectedItemList.add(new Item("Vegetable lasagne", 269));
+        selectedItemList.add(new Item("Sweet corn soup", 119));
+
+        RestaurantService restaurantService = new RestaurantService();
+        Restaurant selectedRestaurant = restaurantService.findRestaurantByName("Amelie's cafe");
+        //Act
+        restaurantService.getSelectedItemPriceTotal(selectedItemList);
+        //Assert - upon unchecking the item (remove action), the cart total should reduce to 81
+        assertEquals(388, restaurantService.getsubTotalForSelectedRestaurantItems());
+
+    }
+    //<<<<<<<<<<<<<<<<<<<<SUBTOTAL>>>>>>>>>>>>>>>>>>>>>>>>>>
 }
