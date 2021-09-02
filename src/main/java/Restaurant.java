@@ -19,6 +19,10 @@ public class Restaurant {
         this.closingTime = closingTime;
     }
 
+    //<Part 3: Solution>09/02/2021 Sushant T.
+    public Restaurant(){
+        //default constructor to instantiate an object
+    }
     public boolean isRestaurantOpen() {
 
         //Sushant T 08/31/2021 Writing is Restaurant criteria
